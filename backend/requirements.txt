@@ -1,0 +1,15 @@
+# --- Core FastAPI Framework ---
+fastapi
+uvicorn[standard]
+pydantic
+
+# --- LLM Integration ---
+google-generativeai
+python-dotenv
+
+# --- Logging ---
+python-json-logger
+
+# --- HTTP Client (for inter-service communication) ---
+httpx
+pydantic-settings

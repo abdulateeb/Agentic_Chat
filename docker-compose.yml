@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./backend:/usr/src/app
+    env_file:
+      - ./backend/.env
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    environment:
+      - DATA_COLLECTOR_URL=http://data-collector:8000
+      - TOOL_EXECUTOR_URL=http://tool-executor:8000
+
+  tool-executor:
+    build:
+      context: ./services/tool-executor
+    volumes:
+      - ./services/tool-executor:/usr/src/app
+    environment:
+      - DATA_COLLECTOR_URL=http://data-collector:8000
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  data-collector:
+    build:
+      context: ./services/data-collector
+    volumes:
+      - ./services/data-collector:/usr/src/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
